@@ -106,37 +106,34 @@ Base.getindex(x::AcbRef) = Acb(x)
 struct ArbVector <: DenseVector{Arb}
     arb_vec::arb_vec_struct
     prec::Int
-
-    ArbVector(n::Integer; prec::Integer = DEFAULT_PRECISION[]) =
-        new(arb_vec_struct(n), prec)
 end
+ArbVector(n::Integer; prec::Integer = DEFAULT_PRECISION[]) =
+    new(arb_vec_struct(n), prec)
 
 struct AcbVector <: DenseVector{AcbRef}
     acb_vec::acb_vec_struct
     prec::Int
-
-    AcbVector(n::Integer; prec::Integer = DEFAULT_PRECISION[]) =
-        new(acb_vec_struct(n), prec)
 end
+
+AcbVector(n::Integer; prec::Integer = DEFAULT_PRECISION[]) =
+    AcbVector(acb_vec_struct(n), prec)
 
 struct ArbMatrix <: DenseMatrix{Arb}
     arb_mat::arb_mat_struct
     prec::Int
-
-    function ArbMatrix(r::Integer, c::Integer; prec::Integer = DEFAULT_PRECISION[])
-        res = new(arb_mat_struct(r, c), prec)
-        return res
-    end
+end
+function ArbMatrix(r::Integer, c::Integer; prec::Integer = DEFAULT_PRECISION[])
+    res = ArbMatrix(arb_mat_struct(r, c), prec)
+    return res
 end
 
 struct AcbMatrix <: DenseMatrix{AcbRef}
     acb_mat::acb_mat_struct
     prec::Int
-
-    function AcbMatrix(r::Integer, c::Integer; prec::Integer = DEFAULT_PRECISION[])
-        res = new(acb_mat_struct(r, c), prec)
-        return res
-    end
+end
+function AcbMatrix(r::Integer, c::Integer; prec::Integer = DEFAULT_PRECISION[])
+    res = AcbMatrix(acb_mat_struct(r, c), prec)
+    return res
 end
 
 const ArbTypes = Union{Arf,Arb,Acb,AcbRef,ArbVector,AcbVector,ArbMatrix,AcbMatrix}
