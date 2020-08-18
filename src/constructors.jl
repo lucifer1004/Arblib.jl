@@ -125,6 +125,10 @@ function Acb(z::Complex{Arb}; prec::Integer = max(precision(real(z)), precision(
     return res
 end
 
+set!(z::Acb, x::Complex) = set!(z, real(x), imag(x))
+Base.convert(::Type{AcbRef}, x::Number) = convert(Acb, x)
+Base.convert(::Type{AcbRef}, x::AcbRef) = x
+
 Base.zero(::Union{Mag,Type{Mag}}) = Mag(UInt64(0))
 Base.one(::Union{Mag,Type{Mag}}) = Mag(UInt64(1))
 Base.zero(x::T) where {T<:Union{Arf,Arb,Acb}} = T(0, prec = precision(x))
