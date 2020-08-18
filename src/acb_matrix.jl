@@ -49,3 +49,11 @@ Base.@propagate_inbounds function Base.setindex!(A::AcbMatrix, x, i::Integer, j:
     A.acb_mat[i, j] = x
     return x
 end
+
+# AcbMatrix is not supposed to be indexed linearly.
+# However, in Arb there is no proper distinction between vector and matrix
+# This makes it such that a matrix can be indexed like a vector.
+Base.@propagate_inbounds Base.getindex(A::AcbMatrix, i::Integer) = A[i, 1]
+Base.@propagate_inbounds function Base.setindex!(A::AcbMatrix, x, i::Integer)
+    A[i, 1] = x
+end
